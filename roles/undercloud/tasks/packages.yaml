@@ -32,6 +32,6 @@
   become_user: root
   when:
     - base_image == 'centos'
-    - os_version == 8
+    - os_version >= 8
   package:
     name: network-scripts-openvswitch

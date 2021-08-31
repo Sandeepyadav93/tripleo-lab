@@ -1,0 +1,36 @@
+---
+# some quick hacks for centos-9 since it's not official yet
+- name: CentOS 9 repositories
+  copy:
+    dest: "{{ basedir }}/images/centos-9.repo"
+    content: |
+      [centos9-stream-baseos]
+      name=centos9-stream-baseos
+      baseurl=https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/BaseOS/x86_64/os/
+      enabled=1
+      gpgcheck=0
+
+      [centos9-stream-appstream]
+      name=centos9-stream-appstream
+      baseurl=https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/AppStream/x86_64/os/
+      enable=1
+      gpgcheck=0
+
+      [centos9-stream-ha]
+      name=centos9-stream-ha
+      baseurl=https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/HighAvailability/x86_64/os/
+      enabled=1
+      gpgcheck=0
+
+      [centos9-stream-crb]
+      name=centos9-stream-ha
+      baseurl=https://odcs.stream.centos.org/production/latest-CentOS-Stream/compose/CRB/x86_64/os/
+      enabled=1
+      gpgcheck=0
+
+- name: Inject sources into image
+  shell: |
+    export LIBGUESTFS_BACKEND=direct
+    virt-copy-in -a "{{ basedir }}/images/{{ base_image_name }}" \
+      "{{ basedir }}/images/centos-9.repo" \
+      /etc/yum.repos.d/

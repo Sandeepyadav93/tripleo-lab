@@ -24,3 +24,7 @@
     url: "{{ baseURI |trim}}{{ latest_centos8.stdout |trim}}"
     dest: "{{ basedir }}/images/{{ destImg |trim}}"
     mode: 0664
+
+- name: Set base_image_name fact
+  set_fact:
+    base_image_name: "{{ destImg |trim}}"
